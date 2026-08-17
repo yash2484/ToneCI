@@ -6,8 +6,6 @@ import pytest
 from snapshot.commands.record import record_suite
 from snapshot.adapters import FakeAdapter
 from snapshot.audio import AudioMeasurements
-from snapshot.store import ArtifactStore
-
 
 _FAKE_MEASUREMENTS = AudioMeasurements(
     duration_ms=300,
