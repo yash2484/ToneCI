@@ -1,5 +1,5 @@
 from __future__ import annotations
-import os, sys
+import os
 from pathlib import Path
 import typer
 from snapshot.models import RunState
