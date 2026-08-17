@@ -74,3 +74,31 @@ def test_only_three_state_labels_appear():
     html = render_report(_result(RunState.REVIEW_REQUIRED), {}, {})
     for forbidden in ["FAIL", "WARN", "WARNING"]:
         assert forbidden not in html
+
+
+def test_render_shows_expected_transcript():
+    from snapshot.models import CaseConfig, Tolerances
+    case = CaseConfig(
+        id="c1",
+        source_text="Hello world.",
+        expected_transcript="Hello world.",
+        required_phrases=[],
+        voice_id="v1",
+        model_id="m1",
+        output_format="mp3_44100_128",
+        tolerances=Tolerances(
+            transcript_wer_threshold=0.15,
+            duration_pct=0.10,
+            duration_abs_ms=200,
+            leading_silence_ms=150,
+            trailing_silence_ms=150,
+        ),
+    )
+    html = render_report(
+        _result(),
+        baseline_audio={"c1": b"AUDIO"},
+        candidate_audio={"c1": b"AUDIO"},
+        case_configs={"c1": case},
+    )
+    assert "Hello world." in html
+    assert "Expected" in html

@@ -2,7 +2,7 @@
 from __future__ import annotations
 import base64
 from jinja2 import Environment, BaseLoader
-from snapshot.models import RunResult, RunState
+from snapshot.models import RunResult
 
 _TEMPLATE = """<!DOCTYPE html>
 <html lang="en">
@@ -21,8 +21,6 @@ _TEMPLATE = """<!DOCTYPE html>
   audio { width: 100%; max-width: 320px; }
   .reasons { color: #9a5c00; font-size: 0.85rem; }
   .meta { font-size: 0.8rem; color: #57606a; }
-  .diff-del { background: #ffd7d5; }
-  .diff-ins { background: #ccffd8; }
   details summary { cursor: pointer; font-size: 0.85rem; color: #0969da; }
 </style>
 </head>
@@ -45,7 +43,12 @@ _TEMPLATE = """<!DOCTYPE html>
 <tr>
   <td><code>{{ case.case_id }}</code></td>
   <td><span class="state-{{ case.state.value }}">{{ case.state.value }}</span></td>
-  <td class="meta">{{ case_configs[case.case_id].source_text if case_configs and case.case_id in case_configs else "" }}</td>
+  <td class="meta">
+    {% if case_configs and case.case_id in case_configs %}
+    <strong>Source:</strong> {{ case_configs[case.case_id].source_text }}<br>
+    <strong>Expected:</strong> {{ case_configs[case.case_id].expected_transcript }}
+    {% endif %}
+  </td>
   <td>{{ case.baseline_transcript or "—" }}</td>
   <td>{{ case.candidate_transcript or "—" }}</td>
   <td>
