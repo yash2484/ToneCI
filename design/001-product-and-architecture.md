@@ -97,7 +97,7 @@ The local CLI is the product core. The GitHub Action is a thin adapter that:
 
 Both `REVIEW_REQUIRED` and `ERROR` can make a check non-green, but the summary must preserve their distinct meanings. PR comments remain outside the MVP.
 
-No Action YAML may be written until the real CLI completion gate in `PROJECT.md` passes.
+No Action YAML may be written until a live CLI run demonstrates `PASS`, `REVIEW_REQUIRED`, and `ERROR` with exit codes 0, 1, and 2.
 
 ## Alternatives Considered
 
