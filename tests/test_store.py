@@ -1,4 +1,5 @@
 # tests/test_store.py
+import re
 import pytest
 from pathlib import Path
 from snapshot.store import ArtifactStore
@@ -12,6 +13,12 @@ def _store(tmp_path: Path) -> ArtifactStore:
         snapshots_dir=tmp_path / "snapshots",
         runs_dir=tmp_path / "runs",
     )
+
+
+def test_new_run_id_format(tmp_path):
+    s = _store(tmp_path)
+    run_id = s.new_run_id()
+    assert re.fullmatch(r'\d{8}T\d{6}Z-[0-9a-f]{6}', run_id), f"Unexpected run_id format: {run_id}"
 
 
 def _manifest(case_id: str = "c1") -> BaselineManifest:
