@@ -1,0 +1,16 @@
+# cases/snapshots.yaml
+cases:
+  - id: hello_world
+    source_text: "Hello world. This is a test."
+    expected_transcript: "Hello world. This is a test."
+    required_phrases:
+      - "Hello world"
+    voice_id: "21m00Tcm4TlvDq8ikWAM"   # Rachel - replace with your chosen voice
+    model_id: "eleven_multilingual_v2"
+    output_format: "mp3_44100_128"
+    tolerances:
+      transcript_wer_threshold: 0.15
+      duration_pct: 0.10
+      duration_abs_ms: 200
+      leading_silence_ms: 150
+      trailing_silence_ms: 150
