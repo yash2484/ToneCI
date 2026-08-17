@@ -1,5 +1,6 @@
 # src/snapshot/commands/check.py
 from __future__ import annotations
+import shutil
 import tempfile
 from pathlib import Path
 from snapshot.adapters import AdapterProtocol
@@ -17,24 +18,30 @@ from snapshot.models import (
 from snapshot.store import ArtifactStore
 
 
-def _check_case(case, store: ArtifactStore, adapter: AdapterProtocol) -> CaseResult:
+def _check_case(
+    case, store: ArtifactStore, adapter: AdapterProtocol
+) -> tuple[CaseResult, bytes | None]:
     if not store.baseline_exists(case.id):
         return CaseResult(
             case_id=case.id,
             state=RunState.ERROR,
             reasons=[CheckReason(check="missing_baseline",
                                  detail=f"No baseline found for {case.id!r}. Run `snapshot record` first.")],
-        )
+        ), None
     try:
         manifest = store.read_baseline_manifest(case.id)
         tts = adapter.generate_speech(case)
 
-        # write candidate to a temp dir for measurement; TemporaryDirectory
-        # avoids PermissionError on Windows (pydub holds the file open)
-        with tempfile.TemporaryDirectory() as tmpdir:
-            tmp_path = Path(tmpdir) / f"{case.id}.mp3"
-            tmp_path.write_bytes(tts.audio)
+        # use mkdtemp so the directory outlives the with-block; pydub may hold
+        # the file open briefly, which causes PermissionError on Windows when
+        # TemporaryDirectory.__exit__ tries to delete it
+        tmp_dir = Path(tempfile.mkdtemp())
+        tmp_path = tmp_dir / f"{case.id}.mp3"
+        tmp_path.write_bytes(tts.audio)
+        try:
             cand_m = measure_audio(tmp_path)
+        finally:
+            shutil.rmtree(tmp_dir, ignore_errors=True)
 
         stt = adapter.transcribe(tts.audio)
 
@@ -69,13 +76,14 @@ def _check_case(case, store: ArtifactStore, adapter: AdapterProtocol) -> CaseRes
             candidate_size_bytes=cand_m.size_bytes,
             baseline_hash=manifest.audio_hash,
             candidate_hash=audio_hash(tts.audio),
-        )
+        ), tts.audio
+
     except Exception as exc:
         return CaseResult(
             case_id=case.id,
             state=RunState.ERROR,
             reasons=[CheckReason(check="exception", detail=str(exc))],
-        )
+        ), None
 
 
 def check_suite(
@@ -91,14 +99,12 @@ def check_suite(
     case_results: list[CaseResult] = []
     for case in suite.cases:
         print(f"[check] {case.id}: generating candidate...")
-        cr = _check_case(case, store, adapter)
-        # write candidate audio if generation succeeded (second call, per brief)
-        if cr.candidate_hash is not None:
+        cr, candidate_audio = _check_case(case, store, adapter)
+        if candidate_audio is not None:
             try:
-                tts = adapter.generate_speech(case)
-                store.write_candidate(run_id, case.id, tts.audio)
-            except Exception:
-                pass  # candidate audio unavailable; result still valid
+                store.write_candidate(run_id, case.id, candidate_audio)
+            except Exception as exc:
+                print(f"[check] {case.id}: warning — could not write candidate: {exc}")
         case_results.append(cr)
         print(f"[check] {case.id}: {cr.state.value}")
 
