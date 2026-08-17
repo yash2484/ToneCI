@@ -31,7 +31,13 @@ def test_case_config_roundtrip():
         voice_id="v1",
         model_id="m1",
         output_format="mp3_44100_128",
-        tolerances=Tolerances(0.15, 0.10, 200, 150, 150),
+        tolerances=Tolerances(
+            transcript_wer_threshold=0.15,
+            duration_pct=0.10,
+            duration_abs_ms=200,
+            leading_silence_ms=150,
+            trailing_silence_ms=150,
+        ),
     )
     assert cc.id == "x"
 

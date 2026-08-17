@@ -2,9 +2,8 @@
 from __future__ import annotations
 from enum import Enum
 from pathlib import Path
-from typing import Any
-import hashlib, json, yaml
-from pydantic import BaseModel, model_validator
+import hashlib, yaml
+from pydantic import BaseModel, ValidationError, model_validator
 
 
 class RunState(str, Enum):
@@ -19,24 +18,6 @@ class Tolerances(BaseModel):
     duration_abs_ms: int
     leading_silence_ms: int
     trailing_silence_ms: int
-
-    def __init__(
-        self,
-        transcript_wer_threshold: float = 0.0,
-        duration_pct: float = 0.0,
-        duration_abs_ms: int = 0,
-        leading_silence_ms: int = 0,
-        trailing_silence_ms: int = 0,
-        **data: Any,
-    ) -> None:
-        super().__init__(
-            transcript_wer_threshold=transcript_wer_threshold,
-            duration_pct=duration_pct,
-            duration_abs_ms=duration_abs_ms,
-            leading_silence_ms=leading_silence_ms,
-            trailing_silence_ms=trailing_silence_ms,
-            **data,
-        )
 
 
 class CaseConfig(BaseModel):
@@ -121,7 +102,10 @@ def load_suite(path: Path) -> SnapshotSuite:
     if not path.exists():
         raise FileNotFoundError(f"Suite file not found: {path}")
     raw = yaml.safe_load(path.read_text(encoding="utf-8"))
-    return SnapshotSuite.model_validate(raw)
+    try:
+        return SnapshotSuite.model_validate(raw)
+    except ValidationError as exc:
+        raise ValueError(str(exc)) from exc
 
 
 def audio_hash(data: bytes) -> str:
