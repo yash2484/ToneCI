@@ -1,10 +1,12 @@
-# TTS Snapshot CI
+# ToneCI
 
-TTS Snapshot CI catches review-worthy changes in ElevenLabs-rendered speech before they ship. It records approved audio baselines, generates candidates from the same YAML suite, measures changes, and writes a side-by-side HTML report for human review.
+> An opinionated tts-slop-checker for ElevenLabs-rendered speech.
 
-The tool does not claim to score speech quality. It flags measurable changes and gives a reviewer the evidence needed to listen and decide.
+ToneCI catches review-worthy changes in rendered speech before they ship. It records approved audio baselines, generates candidates from the same YAML suite, measures the differences, and writes a side-by-side HTML report for a human to review.
 
-## What It Checks
+It does not pretend to calculate a universal speech-quality score. It flags measurable changes, then gives the reviewer the audio and evidence needed to make the call.
+
+## What it checks
 
 - Transcript fidelity with ElevenLabs Speech-to-Text
 - Required phrases that must remain observable
@@ -66,7 +68,7 @@ ffmpeg -version
 ffprobe -version
 ```
 
-## Quick Start
+## Quick start
 
 Record a baseline for any case without one:
 
@@ -94,7 +96,7 @@ snapshot approve <run-id> hello_world
 
 Approval replaces the selected baseline and records the previous and new audio hashes in the baseline manifest.
 
-## Test Cases
+## Test cases
 
 Define cases in [`cases/snapshots.yaml`](cases/snapshots.yaml):
 
