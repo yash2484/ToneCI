@@ -56,7 +56,7 @@ class ElevenLabsAdapter:
             file=("audio.mp3", io.BytesIO(audio), "audio/mpeg"),
             model_id="scribe_v2",
         )
-        if language_code:
+        if language_code is not None:
             kwargs["language_code"] = language_code
         result = self._client.speech_to_text.convert(**kwargs)
         return STTResult(transcript=result.text or "")
