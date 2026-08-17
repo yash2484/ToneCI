@@ -53,8 +53,8 @@ cases:
     return p
 
 
-@patch("snapshot.commands.record.measure_audio", return_value=_FAKE_M)
-@patch("snapshot.commands.check.measure_audio", return_value=_FAKE_M)
+@patch("snapshot.commands.record.measure_audio_bytes", return_value=_FAKE_M)
+@patch("snapshot.commands.check.measure_audio_bytes", return_value=_FAKE_M)
 def test_approve_promotes_candidate(mock_check_m, mock_record_m, tmp_path):
     audio_v1 = _wav(300)
     audio_v2 = _wav(350)
@@ -81,7 +81,7 @@ def test_approve_promotes_candidate(mock_check_m, mock_record_m, tmp_path):
     assert manifest.approval_history[0].run_id == run_id
 
 
-@patch("snapshot.commands.check.measure_audio", return_value=_FAKE_M)
+@patch("snapshot.commands.check.measure_audio_bytes", return_value=_FAKE_M)
 def test_approve_rejects_error_candidate(mock_check_m, tmp_path):
     snap, runs = tmp_path / "snapshots", tmp_path / "runs"
     suite = _suite(tmp_path)
@@ -92,8 +92,8 @@ def test_approve_rejects_error_candidate(mock_check_m, tmp_path):
         approve_cases(run_id, ["c1"], snap, runs)
 
 
-@patch("snapshot.commands.record.measure_audio", return_value=_FAKE_M)
-@patch("snapshot.commands.check.measure_audio", return_value=_FAKE_M)
+@patch("snapshot.commands.record.measure_audio_bytes", return_value=_FAKE_M)
+@patch("snapshot.commands.check.measure_audio_bytes", return_value=_FAKE_M)
 def test_approve_rejects_unknown_case(mock_check_m, mock_record_m, tmp_path):
     audio = _wav()
     snap, runs = tmp_path / "snapshots", tmp_path / "runs"

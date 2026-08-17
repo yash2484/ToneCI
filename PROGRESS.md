@@ -1,11 +1,11 @@
 # TTS Snapshot CI Progress
 
-**Current phase:** Design approved; implementation planning not started  
+**Current phase:** CLI implementation verified; GitHub Action and demo documentation pending
 **Last updated:** 2026-08-17
 
 ## Last Verified Working
 
-No application code exists yet. No tests, builds, API calls, or end-to-end checks have run.
+2026-08-17: `pytest -q` passed (56 tests). A live ElevenLabs baseline and candidate comparison using the Free-tier George voice (`JBFqnCBsd6RMkjVDRZzb`) produced `PASS`; the report was rendered at `runs/20260817T175540Z-d60fce/report.html` with baseline and candidate audio artifacts.
 
 ## Built And Verified
 
@@ -15,27 +15,29 @@ No application code exists yet. No tests, builds, API calls, or end-to-end check
 - [x] Four-check contract approved: transcript fidelity, required phrases, duration drift, and leading/trailing silence drift.
 - [x] Git-tracked baseline ownership and explicit named approval lifecycle approved.
 - [x] Product, architecture, and snapshot contract documented.
+- [x] Python CLI implemented: `snapshot record`, `snapshot check`, and `snapshot approve`.
+- [x] Unit and regression suite passed: 56 tests.
+- [x] Live ElevenLabs baseline recording and `PASS` comparison verified with rendered HTML report.
+- [x] Windows audio measurement verified with FFmpeg/FFprobe installed and audio measured in memory.
 
 Verification note: these items reflect design decisions approved in the project session on 2026-08-17. They do not claim implementation verification.
 
 ## In Progress
 
-- [ ] User review of the written project and design documents.
+- [ ] Verify live `REVIEW_REQUIRED`, controlled `ERROR`, and approval-audit scenarios.
+- [ ] Add README installation, configuration, and demo instructions.
+- [ ] Add the GitHub Action wrapper after the complete CLI gate passes.
 
 ## Next Up
 
-- [ ] Create a detailed implementation plan after written-design approval.
-- [ ] Define package metadata and dependencies in `pyproject.toml`.
-- [ ] Implement typed case configuration and result models.
-- [ ] Develop pure comparison logic with tests.
-- [ ] Complete and verify the CLI before creating GitHub Action YAML.
+- [ ] Expand the live suite from one case to 5-10 short representative clips.
+- [ ] Calibrate initial thresholds against the expanded live suite.
+- [ ] Complete the remaining CLI completion-gate scenarios.
 
 ## Open Decisions
 
-- Choose the local audio-analysis library during implementation planning.
-- Choose whether reports embed short audio clips or copy portable relative assets after a browser probe.
 - Set initial transcript, duration, and silence thresholds using the first 5-10 real clips.
-- Choose the exact package and command name if `snapshot` conflicts with an installed executable.
+- Decide whether the demo should rely on the Free-tier George voice or document a user-selected account voice.
 
 ## Known Issues And Risks
 

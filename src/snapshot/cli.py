@@ -2,6 +2,7 @@ from __future__ import annotations
 import os
 from pathlib import Path
 import typer
+from dotenv import load_dotenv
 from snapshot.models import RunState
 
 app = typer.Typer(name="snapshot", help="TTS Snapshot CI — detect review-worthy speech changes.")
@@ -9,6 +10,8 @@ app = typer.Typer(name="snapshot", help="TTS Snapshot CI — detect review-worth
 _DEFAULT_SUITE = Path("cases/snapshots.yaml")
 _DEFAULT_SNAPSHOTS = Path("snapshots")
 _DEFAULT_RUNS = Path("runs")
+
+load_dotenv()
 
 
 def _adapter():

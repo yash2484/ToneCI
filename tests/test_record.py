@@ -53,7 +53,7 @@ cases:
     return p
 
 
-@patch("snapshot.commands.record.measure_audio", return_value=_FAKE_MEASUREMENTS)
+@patch("snapshot.commands.record.measure_audio_bytes", return_value=_FAKE_MEASUREMENTS)
 def test_record_creates_baseline(mock_measure, tmp_path):
     suite_path = _write_suite(tmp_path)
     audio = _make_wav()
@@ -70,7 +70,7 @@ def test_record_creates_baseline(mock_measure, tmp_path):
     mock_measure.assert_called_once()
 
 
-@patch("snapshot.commands.record.measure_audio", return_value=_FAKE_MEASUREMENTS)
+@patch("snapshot.commands.record.measure_audio_bytes", return_value=_FAKE_MEASUREMENTS)
 def test_record_skips_existing_baseline(mock_measure, tmp_path):
     suite_path = _write_suite(tmp_path)
     audio = _make_wav()

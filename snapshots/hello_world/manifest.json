@@ -1,0 +1,16 @@
+{
+  "case_id": "hello_world",
+  "created_at": "2026-08-17T17:55:25.500592+00:00",
+  "voice_id": "JBFqnCBsd6RMkjVDRZzb",
+  "model_id": "eleven_multilingual_v2",
+  "output_format": "mp3_44100_128",
+  "source_text": "Hello world. This is a test.",
+  "expected_transcript": "Hello world. This is a test.",
+  "baseline_transcript": "Hello world, this is a test.",
+  "duration_ms": 1997,
+  "leading_silence_ms": 50,
+  "trailing_silence_ms": 300,
+  "size_bytes": 33062,
+  "audio_hash": "e179ffec55d7c2d904ae379bfddccecc9bc989d8b1fa774c14947b0e048dfcb4",
+  "approval_history": []
+}

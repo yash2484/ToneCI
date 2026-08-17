@@ -58,8 +58,8 @@ def _dirs(tmp_path: Path):
     return tmp_path / "snapshots", tmp_path / "runs"
 
 
-@patch("snapshot.commands.record.measure_audio", return_value=_FAKE_MEASUREMENTS)
-@patch("snapshot.commands.check.measure_audio", return_value=_FAKE_MEASUREMENTS)
+@patch("snapshot.commands.record.measure_audio_bytes", return_value=_FAKE_MEASUREMENTS)
+@patch("snapshot.commands.check.measure_audio_bytes", return_value=_FAKE_MEASUREMENTS)
 def test_check_pass(mock_check_m, mock_record_m, tmp_path):
     audio = _wav(400)
     adapter = FakeAdapter(speech_bytes=audio, transcript="Hello world.")
@@ -71,8 +71,8 @@ def test_check_pass(mock_check_m, mock_record_m, tmp_path):
     assert all(c.state == RunState.PASS for c in result.cases)
 
 
-@patch("snapshot.commands.record.measure_audio", return_value=_FAKE_MEASUREMENTS)
-@patch("snapshot.commands.check.measure_audio", return_value=_FAKE_MEASUREMENTS)
+@patch("snapshot.commands.record.measure_audio_bytes", return_value=_FAKE_MEASUREMENTS)
+@patch("snapshot.commands.check.measure_audio_bytes", return_value=_FAKE_MEASUREMENTS)
 def test_check_review_required_on_missing_phrase(mock_check_m, mock_record_m, tmp_path):
     audio = _wav(400)
     # baseline has "Hello world.", candidate transcript missing required phrase
@@ -87,8 +87,8 @@ def test_check_review_required_on_missing_phrase(mock_check_m, mock_record_m, tm
     assert result.state == RunState.REVIEW_REQUIRED
 
 
-@patch("snapshot.commands.record.measure_audio", return_value=_FAKE_MEASUREMENTS)
-@patch("snapshot.commands.check.measure_audio", return_value=_FAKE_MEASUREMENTS)
+@patch("snapshot.commands.record.measure_audio_bytes", return_value=_FAKE_MEASUREMENTS)
+@patch("snapshot.commands.check.measure_audio_bytes", return_value=_FAKE_MEASUREMENTS)
 def test_check_does_not_mutate_baseline(mock_check_m, mock_record_m, tmp_path):
     audio = _wav(400)
     adapter = FakeAdapter(speech_bytes=audio, transcript="Hello world.")
@@ -100,8 +100,8 @@ def test_check_does_not_mutate_baseline(mock_check_m, mock_record_m, tmp_path):
     assert (snap / "c1" / "baseline.mp3").read_bytes() == original
 
 
-@patch("snapshot.commands.record.measure_audio", return_value=_FAKE_MEASUREMENTS)
-@patch("snapshot.commands.check.measure_audio", return_value=_FAKE_MEASUREMENTS)
+@patch("snapshot.commands.record.measure_audio_bytes", return_value=_FAKE_MEASUREMENTS)
+@patch("snapshot.commands.check.measure_audio_bytes", return_value=_FAKE_MEASUREMENTS)
 def test_check_error_when_no_baseline(mock_check_m, mock_record_m, tmp_path):
     audio = _wav(400)
     adapter = FakeAdapter(speech_bytes=audio, transcript="Hello world.")

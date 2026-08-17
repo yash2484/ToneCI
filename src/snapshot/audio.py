@@ -1,6 +1,7 @@
 # src/snapshot/audio.py
 from __future__ import annotations
 import hashlib
+from io import BytesIO
 from pathlib import Path
 from pydantic import BaseModel
 from pydub import AudioSegment
@@ -35,7 +36,17 @@ def measure_audio(path: Path) -> AudioMeasurements:
     if not path.exists():
         raise FileNotFoundError(f"Audio file not found: {path}")
     data = path.read_bytes()
-    seg = AudioSegment.from_file(str(path))
+    return _measure_audio(data, str(path))
+
+
+def measure_audio_bytes(data: bytes, format: str) -> AudioMeasurements:
+    return _measure_audio(data, BytesIO(data), format)
+
+
+def _measure_audio(
+    data: bytes, source: str | BytesIO, format: str | None = None
+) -> AudioMeasurements:
+    seg = AudioSegment.from_file(source, format=format)
     return AudioMeasurements(
         duration_ms=int(len(seg)),
         leading_silence_ms=_leading_silence_ms(seg),

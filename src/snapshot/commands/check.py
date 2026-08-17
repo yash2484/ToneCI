@@ -1,10 +1,8 @@
 # src/snapshot/commands/check.py
 from __future__ import annotations
-import shutil
-import tempfile
 from pathlib import Path
 from snapshot.adapters import AdapterProtocol
-from snapshot.audio import measure_audio
+from snapshot.audio import measure_audio_bytes
 from snapshot.comparison import (
     aggregate_state,
     check_duration_drift,
@@ -32,16 +30,7 @@ def _check_case(
         manifest = store.read_baseline_manifest(case.id)
         tts = adapter.generate_speech(case)
 
-        # use mkdtemp so the directory outlives the with-block; pydub may hold
-        # the file open briefly, which causes PermissionError on Windows when
-        # TemporaryDirectory.__exit__ tries to delete it
-        tmp_dir = Path(tempfile.mkdtemp())
-        tmp_path = tmp_dir / f"{case.id}.mp3"
-        tmp_path.write_bytes(tts.audio)
-        try:
-            cand_m = measure_audio(tmp_path)
-        finally:
-            shutil.rmtree(tmp_dir, ignore_errors=True)
+        cand_m = measure_audio_bytes(tts.audio, "mp3")
 
         stt = adapter.transcribe(tts.audio)
 

@@ -5,7 +5,7 @@ cases:
     expected_transcript: "Hello world. This is a test."
     required_phrases:
       - "Hello world"
-    voice_id: "21m00Tcm4TlvDq8ikWAM"   # Rachel - replace with your chosen voice
+    voice_id: "JBFqnCBsd6RMkjVDRZzb"   # George - available to this Free-tier account
     model_id: "eleven_multilingual_v2"
     output_format: "mp3_44100_128"
     tolerances:

@@ -1,11 +1,10 @@
 # src/snapshot/commands/record.py
 from __future__ import annotations
-import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
 
 from snapshot.adapters import AdapterProtocol
-from snapshot.audio import measure_audio
+from snapshot.audio import measure_audio_bytes
 from snapshot.models import BaselineManifest, audio_hash, load_suite
 from snapshot.store import ArtifactStore
 
@@ -29,13 +28,7 @@ def record_suite(
         tts = adapter.generate_speech(case)
         stt = adapter.transcribe(tts.audio)
 
-        # write to a temp file so pydub can measure it;
-        # TemporaryDirectory ensures cleanup after all handles are released
-        # (avoids PermissionError on Windows when pydub holds the file open)
-        with tempfile.TemporaryDirectory() as tmpdir:
-            tmp_path = Path(tmpdir) / f"{case.id}.mp3"
-            tmp_path.write_bytes(tts.audio)
-            measurements = measure_audio(tmp_path)
+        measurements = measure_audio_bytes(tts.audio, "mp3")
 
         manifest = BaselineManifest(
             case_id=case.id,

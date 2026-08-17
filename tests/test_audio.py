@@ -1,8 +1,9 @@
 # tests/test_audio.py
 import struct, wave
+from io import BytesIO
 from pathlib import Path
 import pytest
-from snapshot.audio import measure_audio, AudioMeasurements, SILENCE_AMPLITUDE_THRESHOLD
+from snapshot.audio import measure_audio, measure_audio_bytes, AudioMeasurements, SILENCE_AMPLITUDE_THRESHOLD
 
 
 def _write_wav(path: Path, duration_ms: int, amplitude: float = 0.8) -> None:
@@ -63,3 +64,18 @@ def test_hash_is_deterministic(tmp_path):
     m1 = measure_audio(p)
     m2 = measure_audio(p)
     assert m1.audio_hash == m2.audio_hash
+
+
+def test_measure_audio_bytes_returns_measurements():
+    buffer = BytesIO()
+    with wave.open(buffer, "w") as wf:
+        wf.setnchannels(1)
+        wf.setsampwidth(2)
+        wf.setframerate(44100)
+        wf.writeframes(b"\x00\x00" * 4410)
+
+    measurements = measure_audio_bytes(buffer.getvalue(), "wav")
+
+    assert measurements.duration_ms >= 100
+    assert measurements.size_bytes > 0
+    assert len(measurements.audio_hash) == 64
