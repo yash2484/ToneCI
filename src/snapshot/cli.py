@@ -51,6 +51,7 @@ def check(
 ) -> None:
     """Generate candidates, run comparisons, and write a report."""
     from snapshot.commands.check import check_suite
+    from snapshot.models import load_suite
     from snapshot.renderer import render_report
     from snapshot.store import ArtifactStore
 
@@ -77,7 +78,8 @@ def check(
         except Exception:
             pass
 
-    html = render_report(result, baseline_audio, candidate_audio)
+    case_configs = {c.id: c for c in load_suite(suite).cases}
+    html = render_report(result, baseline_audio, candidate_audio, case_configs)
     report_path = store.write_report(result.run_id, html)
 
     typer.echo(f"\nRun:    {result.run_id}")

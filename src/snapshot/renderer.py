@@ -1,8 +1,38 @@
 # src/snapshot/renderer.py
 from __future__ import annotations
 import base64
+from html import escape
+from diff_match_patch import diff_match_patch
 from jinja2 import Environment, BaseLoader
 from snapshot.models import RunResult
+
+_DIFF_INSERT = 1
+_DIFF_DELETE = -1
+
+
+def transcript_diff_pair(reference: str, hypothesis: str) -> tuple[str, str]:
+    """Return (baseline_html, candidate_html) with deletions/insertions highlighted.
+
+    Deletions mark words present in the baseline but missing from the candidate.
+    Insertions mark words added in the candidate. Equal text renders plain.
+    """
+    if reference == hypothesis:
+        return escape(reference), escape(hypothesis)
+    dmp = diff_match_patch()
+    diffs = dmp.diff_main(reference, hypothesis)
+    dmp.diff_cleanupSemantic(diffs)
+    base_parts: list[str] = []
+    cand_parts: list[str] = []
+    for op, text in diffs:
+        esc = escape(text)
+        if op == _DIFF_INSERT:
+            cand_parts.append(f'<ins class="diff-ins">{esc}</ins>')
+        elif op == _DIFF_DELETE:
+            base_parts.append(f'<del class="diff-del">{esc}</del>')
+        else:
+            base_parts.append(esc)
+            cand_parts.append(esc)
+    return "".join(base_parts), "".join(cand_parts)
 
 _TEMPLATE = """<!DOCTYPE html>
 <html lang="en">
@@ -22,6 +52,8 @@ _TEMPLATE = """<!DOCTYPE html>
   .reasons { color: #9a5c00; font-size: 0.85rem; }
   .meta { font-size: 0.8rem; color: #57606a; }
   details summary { cursor: pointer; font-size: 0.85rem; color: #0969da; }
+  .diff-ins { background: #ccffd8; color: #1a7f37; }
+  .diff-del { background: #ffecec; color: #cf222e; text-decoration: line-through; }
 </style>
 </head>
 <body>
@@ -49,8 +81,8 @@ _TEMPLATE = """<!DOCTYPE html>
     <strong>Expected:</strong> {{ case_configs[case.case_id].expected_transcript }}
     {% endif %}
   </td>
-  <td>{{ case.baseline_transcript or "—" }}</td>
-  <td>{{ case.candidate_transcript or "—" }}</td>
+  <td>{% if highlighted[case.case_id] %}{{ highlighted[case.case_id][0]|safe }}{% else %}{{ case.baseline_transcript or "—" }}{% endif %}</td>
+  <td>{% if highlighted[case.case_id] %}{{ highlighted[case.case_id][1]|safe }}{% else %}{{ case.candidate_transcript or "—" }}{% endif %}</td>
   <td>
     {% if baseline_audio[case.case_id] %}
     <audio controls src="data:audio/mpeg;base64,{{ baseline_audio[case.case_id] }}"></audio>
@@ -106,9 +138,17 @@ def render_report(
     b64_baseline = {k: _b64(baseline_audio, k) for k in [c.case_id for c in result.cases]}
     b64_candidate = {k: _b64(candidate_audio, k) for k in [c.case_id for c in result.cases]}
 
+    highlighted: dict[str, tuple[str, str]] = {}
+    for c in result.cases:
+        if c.baseline_transcript is not None and c.candidate_transcript is not None:
+            highlighted[c.case_id] = transcript_diff_pair(
+                c.baseline_transcript, c.candidate_transcript
+            )
+
     return tmpl.render(
         result=result,
         baseline_audio=b64_baseline,
         candidate_audio=b64_candidate,
         case_configs=case_configs or {},
+        highlighted=highlighted,
     )

@@ -102,3 +102,67 @@ def test_render_shows_expected_transcript():
     )
     assert "Hello world." in html
     assert "Expected" in html
+
+
+def test_render_shows_source_text_when_configs_passed():
+    from snapshot.models import CaseConfig, Tolerances
+    case = CaseConfig(
+        id="c1",
+        source_text="This is the source sentence.",
+        expected_transcript="Hello world.",
+        required_phrases=[],
+        voice_id="v1",
+        model_id="m1",
+        output_format="mp3_44100_128",
+        tolerances=Tolerances(
+            transcript_wer_threshold=0.15,
+            duration_pct=0.10,
+            duration_abs_ms=200,
+            leading_silence_ms=150,
+            trailing_silence_ms=150,
+        ),
+    )
+    html = render_report(
+        _result(),
+        baseline_audio={"c1": b"AUDIO"},
+        candidate_audio={"c1": b"AUDIO"},
+        case_configs={"c1": case},
+    )
+    assert "This is the source sentence." in html
+    assert "Source" in html
+
+
+def test_render_highlights_transcript_differences():
+    result = RunResult(
+        run_id="20260817T000000Z-abc123",
+        state=RunState.REVIEW_REQUIRED,
+        cases=[
+            CaseResult(
+                case_id="c1",
+                state=RunState.REVIEW_REQUIRED,
+                baseline_transcript="Call support at 555.",
+                candidate_transcript="Call support at 999.",
+            )
+        ],
+    )
+    html = render_report(result, {"c1": b"AUDIO"}, {"c1": b"AUDIO"})
+    assert '<del class="diff-del">' in html
+    assert '<ins class="diff-ins">' in html
+
+
+def test_render_identical_transcripts_have_no_diff_marks():
+    result = RunResult(
+        run_id="20260817T000000Z-abc123",
+        state=RunState.PASS,
+        cases=[
+            CaseResult(
+                case_id="c1",
+                state=RunState.PASS,
+                baseline_transcript="Same words.",
+                candidate_transcript="Same words.",
+            )
+        ],
+    )
+    html = render_report(result, {"c1": b"AUDIO"}, {"c1": b"AUDIO"})
+    assert "<del" not in html
+    assert "<ins" not in html
