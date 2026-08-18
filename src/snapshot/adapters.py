@@ -2,11 +2,13 @@
 from __future__ import annotations
 import time
 from typing import Protocol
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from snapshot.models import CaseConfig
 
 
 class TTSResult(BaseModel):
+    model_config = ConfigDict(protected_namespaces=())
+
     audio: bytes
     latency_ms: int
     voice_id: str

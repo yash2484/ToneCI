@@ -4,7 +4,7 @@ from enum import Enum
 from pathlib import Path
 import hashlib
 import yaml
-from pydantic import BaseModel, ValidationError, model_validator
+from pydantic import BaseModel, ConfigDict, ValidationError, model_validator
 
 
 class RunState(str, Enum):
@@ -22,6 +22,8 @@ class Tolerances(BaseModel):
 
 
 class CaseConfig(BaseModel):
+    model_config = ConfigDict(protected_namespaces=())
+
     id: str
     source_text: str
     expected_transcript: str
@@ -83,6 +85,8 @@ class ApprovalRecord(BaseModel):
 
 
 class BaselineManifest(BaseModel):
+    model_config = ConfigDict(protected_namespaces=())
+
     case_id: str
     created_at: str
     voice_id: str
