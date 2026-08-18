@@ -2,8 +2,8 @@
 import pytest
 from pathlib import Path
 from snapshot.models import (
-    Tolerances, CaseConfig, SnapshotSuite, RunState,
-    CheckReason, CaseResult, RunResult, load_suite,
+    Tolerances, CaseConfig, RunState,
+    load_suite,
 )
 
 def test_runstate_values():

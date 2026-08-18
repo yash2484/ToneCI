@@ -1,5 +1,8 @@
 # tests/test_approve.py
-import struct, wave, math, io
+import struct
+import wave
+import math
+import io
 from pathlib import Path
 from unittest.mock import patch
 import pytest
@@ -8,7 +11,6 @@ from snapshot.commands.check import check_suite
 from snapshot.commands.approve import approve_cases
 from snapshot.adapters import FakeAdapter
 from snapshot.audio import AudioMeasurements
-from snapshot.models import RunState
 
 _FAKE_M = AudioMeasurements(
     duration_ms=300,
@@ -27,7 +29,9 @@ def _wav(duration_ms: int = 300) -> bytes:
     )
     buf = io.BytesIO()
     with wave.open(buf, "w") as wf:
-        wf.setnchannels(1); wf.setsampwidth(2); wf.setframerate(sr)
+        wf.setnchannels(1)
+        wf.setsampwidth(2)
+        wf.setframerate(sr)
         wf.writeframes(frames)
     return buf.getvalue()
 

@@ -1,8 +1,9 @@
 # tests/test_record.py
-import struct, wave, math
+import struct
+import wave
+import math
 from pathlib import Path
 from unittest.mock import patch
-import pytest
 from snapshot.commands.record import record_suite
 from snapshot.adapters import FakeAdapter
 from snapshot.audio import AudioMeasurements
@@ -27,7 +28,9 @@ def _make_wav(duration_ms: int = 300) -> bytes:
     import io
     buf = io.BytesIO()
     with wave.open(buf, "w") as wf:
-        wf.setnchannels(1); wf.setsampwidth(2); wf.setframerate(sample_rate)
+        wf.setnchannels(1)
+        wf.setsampwidth(2)
+        wf.setframerate(sample_rate)
         wf.writeframes(frames)
     return buf.getvalue()
 

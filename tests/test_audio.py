@@ -1,9 +1,10 @@
 # tests/test_audio.py
-import struct, wave
+import struct
+import wave
 from io import BytesIO
 from pathlib import Path
 import pytest
-from snapshot.audio import measure_audio, measure_audio_bytes, AudioMeasurements, SILENCE_AMPLITUDE_THRESHOLD
+from snapshot.audio import measure_audio, measure_audio_bytes, AudioMeasurements
 
 
 def _write_wav(path: Path, duration_ms: int, amplitude: float = 0.8) -> None:

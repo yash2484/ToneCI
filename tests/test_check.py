@@ -1,8 +1,10 @@
 # tests/test_check.py
-import struct, wave, math, io
+import struct
+import wave
+import math
+import io
 from pathlib import Path
 from unittest.mock import patch
-import pytest
 from snapshot.commands.record import record_suite
 from snapshot.commands.check import check_suite
 from snapshot.adapters import FakeAdapter
@@ -27,7 +29,9 @@ def _wav(duration_ms: int = 400, freq: int = 440, amp: float = 0.5) -> bytes:
     )
     buf = io.BytesIO()
     with wave.open(buf, "w") as wf:
-        wf.setnchannels(1); wf.setsampwidth(2); wf.setframerate(sr)
+        wf.setnchannels(1)
+        wf.setsampwidth(2)
+        wf.setframerate(sr)
         wf.writeframes(frames)
     return buf.getvalue()
 

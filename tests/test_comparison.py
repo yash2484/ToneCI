@@ -1,5 +1,4 @@
 # tests/test_comparison.py
-import pytest
 from snapshot.comparison import (
     normalize_transcript,
     word_error_rate,

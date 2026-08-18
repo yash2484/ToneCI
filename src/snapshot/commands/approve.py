@@ -4,7 +4,7 @@ from __future__ import annotations
 from datetime import datetime, timezone
 from pathlib import Path
 
-from snapshot.models import ApprovalRecord, BaselineManifest, RunState, audio_hash
+from snapshot.models import ApprovalRecord, RunState, audio_hash
 from snapshot.store import ArtifactStore
 
 

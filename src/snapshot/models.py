@@ -2,7 +2,8 @@
 from __future__ import annotations
 from enum import Enum
 from pathlib import Path
-import hashlib, yaml
+import hashlib
+import yaml
 from pydantic import BaseModel, ValidationError, model_validator
 
 
