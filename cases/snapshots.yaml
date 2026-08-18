@@ -89,3 +89,18 @@ cases:
       duration_abs_ms: 200
       leading_silence_ms: 150
       trailing_silence_ms: 150
+
+  - id: promo_launch
+    source_text: "Promo code SAVE20 gets you twenty percent off your next order."
+    expected_transcript: "Promo code SAVE20 gets you twenty percent off your next order."
+    required_phrases:
+      - "SAVE20"
+    voice_id: "JBFqnCBsd6RMkjVDRZzb"
+    model_id: "eleven_multilingual_v2"
+    output_format: "mp3_44100_128"
+    tolerances:
+      transcript_wer_threshold: 0.15
+      duration_pct: 0.10
+      duration_abs_ms: 200
+      leading_silence_ms: 150
+      trailing_silence_ms: 150
