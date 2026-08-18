@@ -1,0 +1,16 @@
+{
+  "case_id": "documentation_url",
+  "created_at": "2026-08-18T12:09:32.425214+00:00",
+  "voice_id": "JBFqnCBsd6RMkjVDRZzb",
+  "model_id": "eleven_multilingual_v2",
+  "output_format": "mp3_44100_128",
+  "source_text": "Visit the documentation at example.com slash docs to get started.",
+  "expected_transcript": "Visit the documentation at example.com slash docs to get started.",
+  "baseline_transcript": "Visit the documentation at example.com/docs to get started",
+  "duration_ms": 4458,
+  "leading_silence_ms": 0,
+  "trailing_silence_ms": 350,
+  "size_bytes": 72351,
+  "audio_hash": "69a498c3c44e06278920d037b51d5aacfafe3505b57ff07d87017936bab2b62a",
+  "approval_history": []
+}

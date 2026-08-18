@@ -1,0 +1,16 @@
+{
+  "case_id": "order_confirmation",
+  "created_at": "2026-08-18T12:20:13.072041+00:00",
+  "voice_id": "JBFqnCBsd6RMkjVDRZzb",
+  "model_id": "eleven_multilingual_v2",
+  "output_format": "mp3_44100_128",
+  "source_text": "Your order has been confirmed. It will arrive by Friday.",
+  "expected_transcript": "Your order has been confirmed. It will arrive by Friday.",
+  "baseline_transcript": "Your order has been confirmed. It will arrive by Friday.",
+  "duration_ms": 3390,
+  "leading_silence_ms": 50,
+  "trailing_silence_ms": 300,
+  "size_bytes": 55214,
+  "audio_hash": "0c4592b94b518178405047c085f6c7707abef27824a283d4e37a645cd7a82c77",
+  "approval_history": []
+}

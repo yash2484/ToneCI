@@ -1,0 +1,16 @@
+{
+  "case_id": "product_name",
+  "created_at": "2026-08-18T12:09:27.999613+00:00",
+  "voice_id": "JBFqnCBsd6RMkjVDRZzb",
+  "model_id": "eleven_multilingual_v2",
+  "output_format": "mp3_44100_128",
+  "source_text": "The new feature is called Cortex Search. Cortex Search is now available.",
+  "expected_transcript": "The new feature is called Cortex Search. Cortex Search is now available.",
+  "baseline_transcript": "The new feature is called Cortex Search. Cortex Search is now available",
+  "duration_ms": 4598,
+  "leading_silence_ms": 50,
+  "trailing_silence_ms": 250,
+  "size_bytes": 74440,
+  "audio_hash": "b50c983e415972a5a2bc5040b21ee471b1ec605773ad8a1eac17ffaf09a2be42",
+  "approval_history": []
+}

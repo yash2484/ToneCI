@@ -14,3 +14,78 @@ cases:
       duration_abs_ms: 200
       leading_silence_ms: 150
       trailing_silence_ms: 150
+
+  - id: product_name
+    source_text: "The new feature is called Cortex Search. Cortex Search is now available."
+    expected_transcript: "The new feature is called Cortex Search. Cortex Search is now available."
+    required_phrases:
+      - "Cortex Search"
+    voice_id: "JBFqnCBsd6RMkjVDRZzb"
+    model_id: "eleven_multilingual_v2"
+    output_format: "mp3_44100_128"
+    tolerances:
+      transcript_wer_threshold: 0.15
+      duration_pct: 0.10
+      duration_abs_ms: 200
+      leading_silence_ms: 150
+      trailing_silence_ms: 150
+
+  - id: order_confirmation
+    source_text: "Your order has been confirmed. It will arrive by Friday."
+    expected_transcript: "Your order has been confirmed. It will arrive by Friday."
+    required_phrases:
+      - "order has been confirmed"
+    voice_id: "JBFqnCBsd6RMkjVDRZzb"
+    model_id: "eleven_multilingual_v2"
+    output_format: "mp3_44100_128"
+    tolerances:
+      transcript_wer_threshold: 0.15
+      duration_pct: 0.10
+      duration_abs_ms: 200
+      leading_silence_ms: 150
+      trailing_silence_ms: 150
+
+  - id: documentation_url
+    source_text: "Visit the documentation at example.com slash docs to get started."
+    expected_transcript: "Visit the documentation at example.com/docs to get started."
+    required_phrases:
+      - "example.com"
+    voice_id: "JBFqnCBsd6RMkjVDRZzb"
+    model_id: "eleven_multilingual_v2"
+    output_format: "mp3_44100_128"
+    tolerances:
+      transcript_wer_threshold: 0.15
+      duration_pct: 0.10
+      duration_abs_ms: 200
+      leading_silence_ms: 150
+      trailing_silence_ms: 150
+
+  - id: safety_warning
+    source_text: "Warning. Do not remove the battery while the device is charging."
+    expected_transcript: "Warning. Do not remove the battery while the device is charging."
+    required_phrases:
+      - "Warning"
+    voice_id: "JBFqnCBsd6RMkjVDRZzb"
+    model_id: "eleven_multilingual_v2"
+    output_format: "mp3_44100_128"
+    tolerances:
+      transcript_wer_threshold: 0.15
+      duration_pct: 0.10
+      duration_abs_ms: 200
+      leading_silence_ms: 150
+      trailing_silence_ms: 150
+
+  - id: subscription_note
+    source_text: "Your subscription renews monthly. You can cancel anytime."
+    expected_transcript: "Your subscription renews monthly. You can cancel anytime."
+    required_phrases:
+      - "cancel anytime"
+    voice_id: "JBFqnCBsd6RMkjVDRZzb"
+    model_id: "eleven_multilingual_v2"
+    output_format: "mp3_44100_128"
+    tolerances:
+      transcript_wer_threshold: 0.15
+      duration_pct: 0.10
+      duration_abs_ms: 200
+      leading_silence_ms: 150
+      trailing_silence_ms: 150

@@ -1,0 +1,16 @@
+{
+  "case_id": "safety_warning",
+  "created_at": "2026-08-18T12:09:34.838670+00:00",
+  "voice_id": "JBFqnCBsd6RMkjVDRZzb",
+  "model_id": "eleven_multilingual_v2",
+  "output_format": "mp3_44100_128",
+  "source_text": "Warning. Do not remove the battery while the device is charging.",
+  "expected_transcript": "Warning. Do not remove the battery while the device is charging.",
+  "baseline_transcript": "Warning: Do not remove the battery while the device is charging",
+  "duration_ms": 3483,
+  "leading_silence_ms": 0,
+  "trailing_silence_ms": 300,
+  "size_bytes": 56886,
+  "audio_hash": "cb0964fc0658b9ac88800de77e3a8edb50f0a584e655da6238929f285e330352",
+  "approval_history": []
+}
