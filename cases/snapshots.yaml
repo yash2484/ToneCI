@@ -65,6 +65,7 @@ cases:
     expected_transcript: "Warning. Do not remove the battery while the device is charging."
     required_phrases:
       - "Warning"
+      - "keep out of reach of children"
     voice_id: "JBFqnCBsd6RMkjVDRZzb"
     model_id: "eleven_multilingual_v2"
     output_format: "mp3_44100_128"
