@@ -28,6 +28,7 @@ jobs:
         env:
           ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
         run: |
+          set +e
           snapshot check
           echo "exit_code=$?" >> "$GITHUB_OUTPUT"
         continue-on-error: true
@@ -51,5 +52,5 @@ jobs:
           if-no-files-found: warn
 
       - name: Fail on ERROR or REVIEW_REQUIRED
-        if: steps.snap.outputs.exit_code != '0'
-        run: exit ${{ steps.snap.outputs.exit_code }}
+        if: steps.snap.outputs.exit_code != '' && steps.snap.outputs.exit_code != '0'
+        run: exit ${{ steps.snap.outputs.exit_code || 2 }}
