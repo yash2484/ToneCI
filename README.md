@@ -96,6 +96,22 @@ snapshot approve <run-id> hello_world
 
 Approval replaces the selected baseline and records the previous and new audio hashes in the baseline manifest.
 
+## How it was verified
+
+The three result states were demonstrated against a live Free-tier ElevenLabs account with the George voice:
+
+| State | Exit code | Run |
+| --- | ---: | --- |
+| `PASS` — full six-case suite | `0` | `20260818T122142Z-441fe4` |
+| `REVIEW_REQUIRED` — induced required-phrase crossing | `1` | `20260818T122533Z-98ebf7` |
+| `ERROR` — missing baseline and invalid voice | `2` | `20260818T122615Z-0a3f8a`, `20260818T122633Z-ef2b85` |
+
+Each run wrote a side-by-side HTML report with baseline and candidate audio players, transcripts with highlighted differences, measurements, and review reasons. A named approval from the `PASS` run recorded a full audit trail in the manifest: previous hash, new hash, source run ID, and timestamp. The 59-test regression suite covers the comparison engine, audio measurement, artifact store, report renderer, and CLI lifecycle with deterministic fake adapters.
+
+## GitHub Actions
+
+A workflow in [`.github/workflows/snapshot.yml`](.github/workflows/snapshot.yml) runs `snapshot check` on every pull request, uploads the report as a build artifact, and writes the named result state to the job summary. `REVIEW_REQUIRED` and `ERROR` fail the check with distinct exit codes while keeping their meanings visible by name.
+
 ## Test cases
 
 Define cases in [`cases/snapshots.yaml`](cases/snapshots.yaml):
@@ -133,6 +149,7 @@ The suite includes deterministic fake-adapter tests. A live run requires an Elev
 ## Limitations
 
 - ElevenLabs Speech-to-Text is measurement evidence, not ground truth about audio content.
+- Speech-to-Text digit normalization is nondeterministic: the same sentence can transcribe as words one run and as numerals the next. Cases that depend on exact digit strings flag on STT variance rather than TTS regressions, so the committed suite keeps digit-heavy content out of required phrases.
 - Generated audio can vary between identical requests, so audio hashes identify artifacts but never determine pass/fail status.
 - Thresholds request review; they do not measure naturalness, emotion, prosody, or universal speech quality.
 - Generation latency depends on the provider and network, so it is reported as metadata rather than a gate.

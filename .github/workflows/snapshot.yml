@@ -1,0 +1,55 @@
+# .github/workflows/snapshot.yml
+name: TTS Snapshot CI
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  snapshot-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install FFmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+
+      - name: Install
+        run: pip install -e .
+
+      - name: Run snapshot check
+        id: snap
+        env:
+          ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
+        run: |
+          snapshot check
+          echo "exit_code=$?" >> "$GITHUB_OUTPUT"
+        continue-on-error: true
+
+      - name: Write job summary
+        if: always()
+        run: |
+          EXIT=${{ steps.snap.outputs.exit_code }}
+          if [ "$EXIT" = "0" ]; then STATE="PASS"; elif [ "$EXIT" = "1" ]; then STATE="REVIEW_REQUIRED"; else STATE="ERROR"; fi
+          echo "## TTS Snapshot CI" >> "$GITHUB_STEP_SUMMARY"
+          echo "**State: $STATE** (exit $EXIT)" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Download the report artifact to inspect audio and transcript comparisons." >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: snapshot-report
+          path: runs/*/report.html
+          if-no-files-found: warn
+
+      - name: Fail on ERROR or REVIEW_REQUIRED
+        if: steps.snap.outputs.exit_code != '0'
+        run: exit ${{ steps.snap.outputs.exit_code }}
