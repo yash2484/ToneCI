@@ -188,7 +188,7 @@ def _render_index(config: SiteConfig, entries: dict[str, SiteEntry]) -> str:
 <main>
   <header class="masthead">
     <div class="eyebrow">ToneCI · voice-change checks</div>
-    <h1>Sound changed. Should someone listen?</h1>
+    <h1>Snapshot testing for AI-rendered speech.</h1>
     <p class="lede">ToneCI re-renders a script that was already approved and compares the new audio to the old. If the wording, timing, or pauses shifted beyond a set tolerance, it asks a human to listen. This page shows the checks that ran: green means nothing needed a second look, amber means it wanted one, red means the check could not finish.</p>
     <div class="legend" aria-label="Result states">
       <span class="pass">PASS</span><span class="review">REVIEW_REQUIRED</span><span class="error">ERROR</span>

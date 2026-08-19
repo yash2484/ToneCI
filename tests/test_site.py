@@ -59,7 +59,7 @@ def test_build_site_renders_sections_scoped_pages_and_friendly_copy(tmp_path: Pa
     build_site(config, runs_dir, output_dir)
 
     index = (output_dir / "index.html").read_text(encoding="utf-8")
-    assert "Sound changed. Should someone listen?" in index
+    assert "Snapshot testing for AI-rendered speech." in index
     assert "Checks I ran while building it" in index
     assert "The same check, running in GitHub Actions" in index
     assert "state-PASS" in index
