@@ -106,11 +106,25 @@ The three result states were demonstrated against a live Free-tier ElevenLabs ac
 | `REVIEW_REQUIRED` — induced required-phrase crossing | `1` | `20260818T122533Z-98ebf7` |
 | `ERROR` — missing baseline and invalid voice | `2` | `20260818T122615Z-0a3f8a`, `20260818T122633Z-ef2b85` |
 
-Each run wrote a side-by-side HTML report with baseline and candidate audio players, transcripts with highlighted differences, measurements, and review reasons. A named approval from the `PASS` run recorded a full audit trail in the manifest: previous hash, new hash, source run ID, and timestamp. The 59-test regression suite covers the comparison engine, audio measurement, artifact store, report renderer, and CLI lifecycle with deterministic fake adapters.
+Each run wrote a side-by-side HTML report with baseline and candidate audio players, transcripts with highlighted differences, measurements, and review reasons. A named approval from the `PASS` run recorded a full audit trail in the manifest: previous hash, new hash, source run ID, and timestamp. The 61-test regression suite covers the comparison engine, audio measurement, artifact store, report renderer, static site builder, and CLI lifecycle with deterministic fake adapters.
 
 ## GitHub Actions
 
 A workflow in [`.github/workflows/snapshot.yml`](.github/workflows/snapshot.yml) runs `snapshot check` on every pull request, uploads the report as a build artifact, and writes the named result state to the job summary. `REVIEW_REQUIRED` and `ERROR` fail the check with distinct exit codes while keeping their meanings visible by name.
+
+### Live evidence site
+
+[`snapshot site`](src/snapshot/site.py) builds a curated static index of completed runs from [`site.yaml`](site.yaml), copies the selected reports, and writes them under `site/`. A deployment workflow in [`.github/workflows/pages.yml`](.github/workflows/pages.yml) publishes that directory to GitHub Pages:
+
+- Live site: <https://yash2484.github.io/ToneCI/>
+
+Rebuild locally whenever you want to include a new run:
+
+```powershell
+snapshot site
+```
+
+Add a run to the curated list by giving its `runs/` directory name in `site.yaml`. The command fails loudly if a listed run is missing or duplicated, and the generated `site/` directory is committed so the published page always matches the repo.
 
 ## Test cases
 
