@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>20260818T121139Z-67659e — ToneCI</title>
+<style>
+  :root {
+    color-scheme: light;
+    --ink: #17202a; --muted: #66737f; --line: #d7dde2; --paper: #f7f8f6; --panel: #ffffff;
+    --pass: #177245; --review: #9a5c00; --error: #c9372c;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  main { max-width: 900px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+  .back { display: inline-block; margin-bottom: 1.25rem; color: var(--muted); font-weight: 600; text-decoration: none; }
+  .back:hover { color: var(--ink); }
+  .masthead { border-bottom: 2px solid var(--ink); padding-bottom: 1.25rem; }
+  .eyebrow { color: var(--muted); font: 700 .72rem/1.2 ui-monospace, SFMono-Regular, Consolas, monospace; letter-spacing: .08em; text-transform: uppercase; }
+  h1 { margin: .5rem 0; font: 700 clamp(1.5rem, 3.5vw, 2.25rem)/1.05 Georgia, "Times New Roman", serif; }
+  .run-meta { color: var(--muted); font: .78rem ui-monospace, SFMono-Regular, Consolas, monospace; }
+  .note { margin: .9rem 0 0; font-size: 1rem; line-height: 1.5; }
+  .case-list { display: grid; gap: 1rem; margin-top: 1.75rem; }
+  .case-card { background: var(--panel); border: 1px solid var(--line); padding: 1rem 1.1rem; }
+  .case-card__head { display: flex; justify-content: space-between; align-items: center; gap: .5rem; }
+  .case-card__head code { font-weight: 700; }
+  .case-card__head .state- { color: var(--muted); }
+  .state-PASS { color: var(--pass); font-weight: 800; } .state-REVIEW_REQUIRED { color: var(--review); font-weight: 800; } .state-ERROR { color: var(--error); font-weight: 800; }
+  .case-reasons { margin: .6rem 0; padding-left: 1.1rem; color: var(--review); font-size: .9rem; }
+  .case-meta { color: var(--muted); font: .75rem/1.6 ui-monospace, SFMono-Regular, Consolas, monospace; }
+  .case-transcripts { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; margin-top: .6rem; font-size: .9rem; }
+  .case-transcripts div { border-top: 1px solid var(--line); padding-top: .4rem; }
+  .full-report { display: inline-block; margin-top: 1.5rem; color: var(--ink); font-weight: 700; }
+  @media (max-width: 600px) { .case-transcripts { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<main>
+  <a class="back" href="../index.html">&larr; All checks</a>
+  <header class="masthead">
+    <div class="eyebrow">ToneCI / one check</div>
+    <h1>REVIEW_REQUIRED</h1>
+    <p class="run-meta">20260818T121139Z-67659e · 6 cases</p>
+    <p class="note">The required safety phrase was present, but the phone number transcribed differently. It asked for a human ear.</p>
+  </header>
+  <section class="case-list"><article class="case-card">
+  <div class="case-card__head">
+    <code>hello_world</code>
+    <span class="state-PASS">PASS</span>
+  </div>
+  <ul class="case-reasons"><li>No issues flagged.</li></ul>
+  <div class="case-meta">
+    duration: 1997ms &rarr; 1950ms<br>
+    leading silence: 50ms &rarr; 50ms<br>
+    trailing silence: 300ms &rarr; 300ms
+  </div>
+  <div class="case-transcripts">
+    <div><strong>Before</strong><br>Hello world, this is a test.</div>
+    <div><strong>After</strong><br>Hello world, this is a test</div>
+  </div>
+</article><article class="case-card">
+  <div class="case-card__head">
+    <code>product_name</code>
+    <span class="state-PASS">PASS</span>
+  </div>
+  <ul class="case-reasons"><li>No issues flagged.</li></ul>
+  <div class="case-meta">
+    duration: 4598ms &rarr; 4876ms<br>
+    leading silence: 50ms &rarr; 50ms<br>
+    trailing silence: 250ms &rarr; 300ms
+  </div>
+  <div class="case-transcripts">
+    <div><strong>Before</strong><br>The new feature is called Cortex Search. Cortex Search is now available</div>
+    <div><strong>After</strong><br>The new feature is called Cortex Search. Cortex Search is now available</div>
+  </div>
+</article><article class="case-card">
+  <div class="case-card__head">
+    <code>phone_number</code>
+    <span class="state-REVIEW_REQUIRED">REVIEW_REQUIRED</span>
+  </div>
+  <ul class="case-reasons"><li><strong>transcript_fidelity</strong>: WER 16.67% exceeds threshold 15.00%</li><li><strong>required_phrase</strong>: Required phrase not found: &#x27;1-800-555-0199&#x27;</li></ul>
+  <div class="case-meta">
+    duration: 4319ms &rarr; 4644ms<br>
+    leading silence: 50ms &rarr; 50ms<br>
+    trailing silence: 300ms &rarr; 300ms
+  </div>
+  <div class="case-transcripts">
+    <div><strong>Before</strong><br>Call support at 1-800-555-0199 for assistance.</div>
+    <div><strong>After</strong><br>Call support at 1-800-550-199 for assistance.</div>
+  </div>
+</article><article class="case-card">
+  <div class="case-card__head">
+    <code>documentation_url</code>
+    <span class="state-PASS">PASS</span>
+  </div>
+  <ul class="case-reasons"><li>No issues flagged.</li></ul>
+  <div class="case-meta">
+    duration: 4458ms &rarr; 4505ms<br>
+    leading silence: 0ms &rarr; 0ms<br>
+    trailing silence: 350ms &rarr; 350ms
+  </div>
+  <div class="case-transcripts">
+    <div><strong>Before</strong><br>Visit the documentation at example.com/docs to get started</div>
+    <div><strong>After</strong><br>Visit the documentation at example.com/docs to get started</div>
+  </div>
+</article><article class="case-card">
+  <div class="case-card__head">
+    <code>safety_warning</code>
+    <span class="state-PASS">PASS</span>
+  </div>
+  <ul class="case-reasons"><li>No issues flagged.</li></ul>
+  <div class="case-meta">
+    duration: 3483ms &rarr; 3715ms<br>
+    leading silence: 0ms &rarr; 0ms<br>
+    trailing silence: 300ms &rarr; 300ms
+  </div>
+  <div class="case-transcripts">
+    <div><strong>Before</strong><br>Warning: Do not remove the battery while the device is charging</div>
+    <div><strong>After</strong><br>Warning: Do not remove the battery while the device is charging.</div>
+  </div>
+</article><article class="case-card">
+  <div class="case-card__head">
+    <code>price_total</code>
+    <span class="state-PASS">PASS</span>
+  </div>
+  <ul class="case-reasons"><li>No issues flagged.</li></ul>
+  <div class="case-meta">
+    duration: 3437ms &rarr; 3437ms<br>
+    leading silence: 50ms &rarr; 50ms<br>
+    trailing silence: 300ms &rarr; 300ms
+  </div>
+  <div class="case-transcripts">
+    <div><strong>Before</strong><br>The total comes to $49.95.</div>
+    <div><strong>After</strong><br>The total comes to $49.95.</div>
+  </div>
+</article></section>
+  <a class="full-report" href="report.html">Full report with audio &rarr;</a>
+</main>
+</body>
+</html>

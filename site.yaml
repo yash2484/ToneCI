@@ -1,21 +1,25 @@
 sections:
-  - title: Calibration runs
+  - title: Checks I ran while building it
     runs:
       - source: 20260818T122142Z-441fe4
-        note: Six-case suite passes end to end.
+        note: The full six-case suite passes end to end.
       - source: 20260817T175540Z-d60fce
-        note: First full calibration, one case at a time.
+        note: The first full calibration, one case at a time.
       - source: 20260818T121139Z-67659e
-        note: Required phrase present, but phone_number transcription flaked. Inspection requested.
+        note: The required safety phrase was present, but the phone number transcribed differently. It asked for a human ear.
       - source: 20260818T122022Z-3de619
-        note: price_total transcription flaked. Inspection requested.
+        note: A price transcribed differently between the two recordings. It asked for a human ear.
       - source: 20260818T122615Z-0a3f8a
-        note: New cases had no approved baseline yet. Comparison could not run.
-  - title: Verify it in CI
+        note: New cases had no approved recording yet, so the check could not run.
+  - title: The same check, running in GitHub Actions
     runs:
       - source: "32138078623"
-        note: Master branch on a schedule, six cases, report uploaded.
+        note: Master branch on a schedule. All six cases passed and the report was uploaded.
       - source: "32147311955"
-        note: "Pull request #1 adds a required safety phrase. One case crossed the review threshold."
+        note: "Pull request #1 adds a required safety phrase to the script. One case crossed the threshold and the check asked for a human ear."
+        href: https://github.com/yash2484/ToneCI/pull/1
+        screenshot: images/pr1-check.png
       - source: "32147503449"
-        note: "Pull request #2 adds a case with no baseline. Job fails with an error."
+        note: "Pull request #2 adds a case that has no approved recording yet. The check could not run and the job failed."
+        href: https://github.com/yash2484/ToneCI/pull/2
+        screenshot: images/pr2-check.png
