@@ -1,0 +1,21 @@
+sections:
+  - title: Calibration runs
+    runs:
+      - source: 20260818T122142Z-441fe4
+        note: Six-case suite passes end to end.
+      - source: 20260817T175540Z-d60fce
+        note: First full calibration, one case at a time.
+      - source: 20260818T121139Z-67659e
+        note: Required phrase present, but phone_number transcription flaked. Inspection requested.
+      - source: 20260818T122022Z-3de619
+        note: price_total transcription flaked. Inspection requested.
+      - source: 20260818T122615Z-0a3f8a
+        note: New cases had no approved baseline yet. Comparison could not run.
+  - title: Verify it in CI
+    runs:
+      - source: "32138078623"
+        note: Master branch on a schedule, six cases, report uploaded.
+      - source: "32147311955"
+        note: "Pull request #1 adds a required safety phrase. One case crossed the review threshold."
+      - source: "32147503449"
+        note: "Pull request #2 adds a case with no baseline. Job fails with an error."
