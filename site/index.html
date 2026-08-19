@@ -23,97 +23,106 @@
     color: var(--ink);
     font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   }
-  main { max-width: 1080px; margin: 0 auto; padding: 3.5rem 1.25rem 5rem; }
-  .masthead { border-bottom: 2px solid var(--ink); padding-bottom: 1.5rem; }
+  main { max-width: 1080px; margin: 0 auto; padding: 3rem 1.25rem 5rem; }
+  .masthead { border-bottom: 2px solid var(--ink); padding-bottom: 1.25rem; }
   .eyebrow { color: var(--muted); font: 700 .72rem/1.2 ui-monospace, SFMono-Regular, Consolas, monospace; letter-spacing: .08em; text-transform: uppercase; }
-  h1 { margin: .55rem 0 .8rem; font: 700 clamp(2.4rem, 7vw, 5.5rem)/.92 Georgia, "Times New Roman", serif; letter-spacing: -.04em; }
-  .lede { max-width: 700px; color: var(--muted); font-size: 1.05rem; line-height: 1.6; }
-  .legend { display: flex; flex-wrap: wrap; gap: .75rem 1.25rem; margin-top: 1.4rem; color: var(--muted); font: .78rem ui-monospace, SFMono-Regular, Consolas, monospace; }
+  h1 { margin: .45rem 0 .7rem; font: 700 clamp(1.75rem, 4vw, 2.75rem)/1.05 Georgia, "Times New Roman", serif; letter-spacing: -.02em; }
+  .lede { max-width: 700px; color: var(--muted); font-size: 1rem; line-height: 1.6; }
+  .legend { display: flex; flex-wrap: wrap; gap: .75rem 1.25rem; margin-top: 1.2rem; color: var(--muted); font: .78rem ui-monospace, SFMono-Regular, Consolas, monospace; }
   .legend span::before { content: ""; display: inline-block; width: .6rem; height: .6rem; margin-right: .35rem; border-radius: 50%; background: currentColor; }
   .legend .pass { color: var(--pass); } .legend .review { color: var(--review); } .legend .error { color: var(--error); }
-  .evidence-section { margin-top: 3rem; }
-  h2 { margin: 0 0 1rem; font: 700 1.35rem/1.1 Georgia, "Times New Roman", serif; }
+  .evidence-section { margin-top: 2.75rem; }
+  h2 { margin: 0 0 1rem; font: 700 1.3rem/1.1 Georgia, "Times New Roman", serif; }
   .run-list { display: grid; gap: .75rem; }
   .run-card { display: grid; grid-template-columns: 11rem 1fr; background: var(--panel); border: 1px solid var(--line); }
   .run-card__state { display: grid; place-items: center; padding: 1rem; color: #fff; font: 800 .78rem ui-monospace, SFMono-Regular, Consolas, monospace; letter-spacing: .03em; }
   .state-PASS { background: var(--pass); } .state-REVIEW_REQUIRED { background: var(--review); } .state-ERROR { background: var(--error); }
   .run-card__body { padding: 1rem 1.1rem 1.05rem; }
   .run-card__meta { color: var(--muted); font: .73rem ui-monospace, SFMono-Regular, Consolas, monospace; overflow-wrap: anywhere; }
-  h3 { margin: .45rem 0 .65rem; font-size: 1rem; line-height: 1.35; }
+  h3 { margin: .45rem 0 .6rem; font-size: 1rem; line-height: 1.35; }
+  .run-card__shot { display: block; width: 100%; max-width: 560px; margin: .35rem 0 .6rem; border: 1px solid var(--line); }
   a { color: var(--ink); font-weight: 700; text-underline-offset: .18em; }
   a:hover { color: var(--pass); }
   .footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--line); color: var(--muted); font: .78rem/1.5 ui-monospace, SFMono-Regular, Consolas, monospace; }
-  @media (max-width: 600px) { main { padding-top: 2rem; } .run-card { grid-template-columns: 1fr; } .run-card__state { justify-content: start; padding: .7rem 1rem; } }
+  @media (max-width: 600px) { main { padding-top: 1.75rem; } .run-card { grid-template-columns: 1fr; } .run-card__state { justify-content: start; padding: .7rem 1rem; } }
 </style>
 </head>
 <body>
 <main>
   <header class="masthead">
-    <div class="eyebrow">ToneCI / rendered speech evidence</div>
-    <h1>Does the voice change hold up?</h1>
-    <p class="lede">A small, inspectable history of ElevenLabs snapshot checks. Each entry opens the original report with audio, transcripts, measurements, and the reason a human reviewer was or was not needed.</p>
+    <div class="eyebrow">ToneCI · voice-change checks</div>
+    <h1>Sound changed. Should someone listen?</h1>
+    <p class="lede">ToneCI re-renders a script that was already approved and compares the new audio to the old. If the wording, timing, or pauses shifted beyond a set tolerance, it asks a human to listen. This page shows the checks that ran: green means nothing needed a second look, amber means it wanted one, red means the check could not finish.</p>
     <div class="legend" aria-label="Result states">
       <span class="pass">PASS</span><span class="review">REVIEW_REQUIRED</span><span class="error">ERROR</span>
     </div>
   </header>
-  <section class="evidence-section"><h2>Calibration runs</h2><div class="run-list"><article class="run-card">
+  <section class="evidence-section"><h2>Checks I ran while building it</h2><div class="run-list"><article class="run-card">
   <div class="run-card__state state-PASS">PASS</div>
   <div class="run-card__body">
     <div class="run-card__meta">20260818T122142Z-441fe4 · 6 cases</div>
-    <h3>Six-case suite passes end to end.</h3>
-    <a href="runs/20260818T122142Z-441fe4/report.html">Open report <span aria-hidden="true">↗</span></a>
+    <h3>The full six-case suite passes end to end.</h3>
+    
+    <a href="runs/20260818T122142Z-441fe4/index.html">View this check </a>
   </div>
 </article><article class="run-card">
   <div class="run-card__state state-PASS">PASS</div>
   <div class="run-card__body">
     <div class="run-card__meta">20260817T175540Z-d60fce · 1 case</div>
-    <h3>First full calibration, one case at a time.</h3>
-    <a href="runs/20260817T175540Z-d60fce/report.html">Open report <span aria-hidden="true">↗</span></a>
+    <h3>The first full calibration, one case at a time.</h3>
+    
+    <a href="runs/20260817T175540Z-d60fce/index.html">View this check </a>
   </div>
 </article><article class="run-card">
   <div class="run-card__state state-REVIEW_REQUIRED">REVIEW_REQUIRED</div>
   <div class="run-card__body">
     <div class="run-card__meta">20260818T121139Z-67659e · 6 cases</div>
-    <h3>Required phrase present, but phone_number transcription flaked. Inspection requested.</h3>
-    <a href="runs/20260818T121139Z-67659e/report.html">Open report <span aria-hidden="true">↗</span></a>
+    <h3>The required safety phrase was present, but the phone number transcribed differently. It asked for a human ear.</h3>
+    
+    <a href="runs/20260818T121139Z-67659e/index.html">View this check </a>
   </div>
 </article><article class="run-card">
   <div class="run-card__state state-REVIEW_REQUIRED">REVIEW_REQUIRED</div>
   <div class="run-card__body">
     <div class="run-card__meta">20260818T122022Z-3de619 · 6 cases</div>
-    <h3>price_total transcription flaked. Inspection requested.</h3>
-    <a href="runs/20260818T122022Z-3de619/report.html">Open report <span aria-hidden="true">↗</span></a>
+    <h3>A price transcribed differently between the two recordings. It asked for a human ear.</h3>
+    
+    <a href="runs/20260818T122022Z-3de619/index.html">View this check </a>
   </div>
 </article><article class="run-card">
   <div class="run-card__state state-ERROR">ERROR</div>
   <div class="run-card__body">
     <div class="run-card__meta">20260818T122615Z-0a3f8a · 2 cases</div>
-    <h3>New cases had no approved baseline yet. Comparison could not run.</h3>
-    <a href="runs/20260818T122615Z-0a3f8a/report.html">Open report <span aria-hidden="true">↗</span></a>
+    <h3>New cases had no approved recording yet, so the check could not run.</h3>
+    
+    <a href="runs/20260818T122615Z-0a3f8a/index.html">View this check </a>
   </div>
-</article></div></section><section class="evidence-section"><h2>Verify it in CI</h2><div class="run-list"><article class="run-card">
+</article></div></section><section class="evidence-section"><h2>The same check, running in GitHub Actions</h2><div class="run-list"><article class="run-card">
   <div class="run-card__state state-PASS">PASS</div>
   <div class="run-card__body">
     <div class="run-card__meta">20260818T124142Z-94d502 · 6 cases</div>
-    <h3>Master branch on a schedule, six cases, report uploaded.</h3>
-    <a href="runs/32138078623/report.html">Open report <span aria-hidden="true">↗</span></a>
+    <h3>Master branch on a schedule. All six cases passed and the report was uploaded.</h3>
+    
+    <a href="runs/32138078623/report.html">View this check </a>
   </div>
 </article><article class="run-card">
   <div class="run-card__state state-REVIEW_REQUIRED">REVIEW_REQUIRED</div>
   <div class="run-card__body">
     <div class="run-card__meta">20260818T141652Z-f3bbee · 6 cases</div>
-    <h3>Pull request #1 adds a required safety phrase. One case crossed the review threshold.</h3>
-    <a href="runs/32147311955/report.html">Open report <span aria-hidden="true">↗</span></a>
+    <h3>Pull request #1 adds a required safety phrase to the script. One case crossed the threshold and the check asked for a human ear.</h3>
+    <img class="run-card__shot" src="images/pr1-check.png" alt="Screenshot of the GitHub check">
+    <a href="https://github.com/yash2484/ToneCI/pull/1" target="_blank" rel="noopener">Open the pull request ↗</a>
   </div>
 </article><article class="run-card">
   <div class="run-card__state state-ERROR">ERROR</div>
   <div class="run-card__body">
     <div class="run-card__meta">20260818T141855Z-051a21 · 7 cases</div>
-    <h3>Pull request #2 adds a case with no baseline. Job fails with an error.</h3>
-    <a href="runs/32147503449/report.html">Open report <span aria-hidden="true">↗</span></a>
+    <h3>Pull request #2 adds a case that has no approved recording yet. The check could not run and the job failed.</h3>
+    <img class="run-card__shot" src="images/pr2-check.png" alt="Screenshot of the GitHub check">
+    <a href="https://github.com/yash2484/ToneCI/pull/2" target="_blank" rel="noopener">Open the pull request ↗</a>
   </div>
 </article></div></section>
-  <footer class="footer">REVIEW_REQUIRED requests inspection. It does not assert a TTS defect. Listen to both clips before assigning cause.</footer>
+  <footer class="footer">Amber asks for a human ear before approving. It is a request to review, not a verdict that the audio is broken.</footer>
 </main>
 </body>
 </html>
