@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>TTS Snapshot CI — 20260818T122615Z-0a3f8a</title>
+<style>
+  body { font-family: system-ui, sans-serif; max-width: 1100px; margin: 2rem auto; padding: 0 1rem; }
+  h1 { font-size: 1.4rem; }
+  .state-PASS { color: #1a7f37; font-weight: bold; }
+  .state-REVIEW_REQUIRED { color: #9a5c00; font-weight: bold; }
+  .state-ERROR { color: #cf222e; font-weight: bold; }
+  table { width: 100%; border-collapse: collapse; margin-top: 1.5rem; }
+  th, td { padding: 0.5rem 0.75rem; border: 1px solid #d0d7de; text-align: left; vertical-align: top; }
+  th { background: #f6f8fa; }
+  audio { width: 100%; max-width: 320px; }
+  .reasons { color: #9a5c00; font-size: 0.85rem; }
+  .meta { font-size: 0.8rem; color: #57606a; }
+  details summary { cursor: pointer; font-size: 0.85rem; color: #0969da; }
+  .diff-ins { background: #ccffd8; color: #1a7f37; }
+  .diff-del { background: #ffecec; color: #cf222e; text-decoration: line-through; }
+</style>
+</head>
+<body>
+<h1>TTS Snapshot CI</h1>
+<p>Run: <code>20260818T122615Z-0a3f8a</code> &nbsp;|&nbsp;
+   State: <span class="state-ERROR">ERROR</span></p>
+
+<table>
+<thead>
+<tr>
+  <th>Case</th><th>State</th><th>Source / Expected</th>
+  <th>Baseline transcript</th><th>Candidate transcript</th>
+  <th>Baseline audio</th><th>Candidate audio</th>
+  <th>Measurements</th><th>Reasons</th>
+</tr>
+</thead>
+<tbody>
+
+<tr>
+  <td><code>no_baseline_case</code></td>
+  <td><span class="state-ERROR">ERROR</span></td>
+  <td class="meta">
+    
+    <strong>Source:</strong> This case has no recorded baseline.<br>
+    <strong>Expected:</strong> This case has no recorded baseline.
+    
+  </td>
+  <td>—</td>
+  <td>—</td>
+  <td>
+    —
+  </td>
+  <td>
+    —
+  </td>
+  <td class="meta">
+    duration: ?ms → ?ms<br>
+    lead sil: ?ms → ?ms<br>
+    trail sil: ?ms → ?ms<br>
+    latency: ?ms<br>
+    <details><summary>hashes</summary>
+    base: ?<br>cand: ?
+    </details>
+  </td>
+  <td>
+    
+    <ul class="reasons">
+      <li><strong>missing_baseline</strong>: No baseline found for 'no_baseline_case'. Run `snapshot record` first.</li>
+    </ul>
+    
+  </td>
+</tr>
+
+<tr>
+  <td><code>invalid_voice_case</code></td>
+  <td><span class="state-ERROR">ERROR</span></td>
+  <td class="meta">
+    
+    <strong>Source:</strong> This voice does not exist.<br>
+    <strong>Expected:</strong> This voice does not exist.
+    
+  </td>
+  <td>—</td>
+  <td>—</td>
+  <td>
+    —
+  </td>
+  <td>
+    —
+  </td>
+  <td class="meta">
+    duration: ?ms → ?ms<br>
+    lead sil: ?ms → ?ms<br>
+    trail sil: ?ms → ?ms<br>
+    latency: ?ms<br>
+    <details><summary>hashes</summary>
+    base: ?<br>cand: ?
+    </details>
+  </td>
+  <td>
+    
+    <ul class="reasons">
+      <li><strong>missing_baseline</strong>: No baseline found for 'invalid_voice_case'. Run `snapshot record` first.</li>
+    </ul>
+    
+  </td>
+</tr>
+
+</tbody>
+</table>
+<p class="meta" style="margin-top:2rem">
+  <em>REVIEW_REQUIRED requests inspection; it does not assert a TTS defect.
+  ElevenLabs STT errors can appear as transcript fidelity differences.
+  Listen to both clips before assigning cause.</em>
+</p>
+</body>
+</html>
