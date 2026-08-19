@@ -10,6 +10,8 @@ app = typer.Typer(name="snapshot", help="TTS Snapshot CI — detect review-worth
 _DEFAULT_SUITE = Path("cases/snapshots.yaml")
 _DEFAULT_SNAPSHOTS = Path("snapshots")
 _DEFAULT_RUNS = Path("runs")
+_DEFAULT_SITE_CONFIG = Path("site.yaml")
+_DEFAULT_SITE_OUTPUT = Path("site")
 
 load_dotenv()
 
@@ -111,6 +113,23 @@ def approve(
         typer.echo(f"ERROR: {exc}", err=True)
         raise typer.Exit(2)
     typer.echo(f"Approved {len(approved)} case(s): {', '.join(approved)}")
+
+
+@app.command()
+def site(
+    config: Path = typer.Option(_DEFAULT_SITE_CONFIG, "--config", "-c"),
+    runs_dir: Path = typer.Option(_DEFAULT_RUNS, "--runs-dir"),
+    output_dir: Path = typer.Option(_DEFAULT_SITE_OUTPUT, "--out"),
+) -> None:
+    """Build a curated static evidence site from completed run reports."""
+    from snapshot.site import build_site
+
+    try:
+        build_site(config, runs_dir, output_dir)
+    except (FileNotFoundError, ValueError) as exc:
+        typer.echo(f"ERROR: {exc}", err=True)
+        raise typer.Exit(2)
+    typer.echo(f"Site: {output_dir / 'index.html'}")
 
 
 if __name__ == "__main__":
